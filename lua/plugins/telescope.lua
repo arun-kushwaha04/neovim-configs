@@ -1,0 +1,36 @@
+return {
+  "nvim-telescope/telescope.nvim",
+  version = "*",
+  cmd = "Telescope",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    {
+      "nvim-telescope/telescope-fzf-native.nvim",
+      build = "make",
+    },
+  },
+  opts = {
+    defaults = {
+      layout_strategy = "horizontal",
+      layout_config = { horizontal = { preview_width = 0.55 } },
+      sorting_strategy = "ascending",
+      file_ignore_patterns = { "node_modules/", "%.git/", "dist/", "build/" },
+    },
+    pickers = { find_files = { hidden = true } },
+  },
+  config = function(_, opts)
+    local telescope = require("telescope")
+    telescope.setup(opts)
+    pcall(telescope.load_extension, "fzf")
+  end,
+  keys = {
+    { "<leader>ff", function() require("telescope.builtin").find_files() end, desc = "Find files" },
+    { "<leader>fg", function() require("telescope.builtin").live_grep() end, desc = "Search text in project" },
+    { "<leader>fb", function() require("telescope.builtin").buffers() end, desc = "Find open buffers" },
+    { "<leader>fr", function() require("telescope.builtin").oldfiles() end, desc = "Recent files" },
+    { "<leader>fp", function() require("telescope.builtin").git_files() end, desc = "Find Git files" },
+    { "<leader>fs", function() require("telescope.builtin").lsp_document_symbols() end, desc = "Document symbols" },
+    { "<leader>fw", function() require("telescope.builtin").grep_string() end, desc = "Search word under cursor" },
+    { "<leader>fd", function() require("telescope.builtin").diagnostics() end, desc = "Search diagnostics" },
+  },
+}

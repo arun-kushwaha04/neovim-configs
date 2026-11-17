@@ -1,0 +1,36 @@
+return {
+  "stevearc/conform.nvim",
+  event = { "BufReadPre", "BufNewFile" },
+  cmd = "ConformInfo",
+  opts = {
+    formatters_by_ft = {
+      javascript = { "prettier" },
+      javascriptreact = { "prettier" },
+      typescript = { "prettier" },
+      typescriptreact = { "prettier" },
+      json = { "prettier" },
+      jsonc = { "prettier" },
+      html = { "prettier" },
+      css = { "prettier" },
+      scss = { "prettier" },
+      markdown = { "prettier" },
+      yaml = { "prettier" },
+    },
+    format_on_save = {
+      timeout_ms = 1500,
+      lsp_format = "fallback",
+    },
+  },
+  keys = {
+    {
+      "<leader>cf",
+      function()
+        require("conform").format({
+          async = true,
+          lsp_format = "fallback",
+        })
+      end,
+      desc = "Format current file",
+    },
+  },
+}
