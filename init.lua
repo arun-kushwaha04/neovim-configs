@@ -41,6 +41,7 @@ vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.smartindent = true
 vim.opt.clipboard = "unnamedplus"
+vim.opt.winblend = 0
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -64,7 +65,8 @@ vim.opt.termguicolors = true
 
 local function set_transparent_bg()
   vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+  -- diagnostic popup to have different color as theme, while setting unset winblend
+  -- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
   vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
   vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
   vim.api.nvim_set_hl(0, "LineNr", { bg = "none" })
@@ -109,3 +111,4 @@ require("lazy").setup("plugins")
 require("lsp")
 require("completion")
 require("treesitter")
+require("popup_style")
