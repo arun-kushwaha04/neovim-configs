@@ -1,5 +1,6 @@
 -- Map leader, currently it's space
 vim.g.mapleader = " "
+vim.g.maplocalleader = ","
 
 -- diagnostic
 vim.diagnostic.config({
@@ -30,6 +31,20 @@ vim.keymap.set("n", "]d", function()
   vim.diagnostic.jump({ count = 1 })
 end, { desc = "Next diagnostic" })
 
+-- Navigate errors only
+vim.keymap.set("n", "]e", function()
+  vim.diagnostic.jump({
+    count = 1,
+    severity = vim.diagnostic.severity.ERROR,
+  })
+end, { desc = "Next error" })
+
+vim.keymap.set("n", "[e", function()
+  vim.diagnostic.jump({
+    count = -1,
+    severity = vim.diagnostic.severity.ERROR,
+  })
+end, { desc = "Previous error" })
 
 -- Basic editor settings
 vim.opt.number = true
@@ -57,6 +72,29 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
     error("Failed to install lazy.nvim: " .. output)
   end
 end
+
+-- split settings
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+
+-- Netrw file explorer
+vim.g.netrw_banner = 0
+vim.g.netrw_liststyle = 3
+vim.g.netrw_winsize = -30
+vim.g.netrw_browse_split = 4
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup(
+    "NetrwSettings", { clear = true }
+  ),
+  pattern = "netrw",
+  callback = function()
+    vim.opt_local.winfixwidth = true
+    vim.opt_local.number = false
+    vim.opt_local.relativenumber = false
+    vim.opt_local.signcolumn = "no"
+  end,
+})
 
 vim.opt.rtp:prepend(lazypath)
 
@@ -86,10 +124,14 @@ vim.keymap.set("n", "<A-k>", ":m .-2<CR>==")
 vim.keymap.set("x", "<A-j>", ":m '>+1<CR>gv=gv")
 vim.keymap.set("x", "<A-k>", ":m '<-2<CR>gv=gv")
 
--- close quick list
+-- toggle quick list
 vim.keymap.set("n", "<leader>cq", function()
-  vim.cmd("cclose")
-end, { desc = "Close Quickfix" })
+  if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
+    vim.cmd("cclose")
+  else
+    vim.cmd("copen")
+  end
+end, { desc = "Toggle Quickfix" })
 
 -- buffer line - tab switching
 vim.keymap.set("n", "<Tab>", "<cmd>tabnext<CR>",
@@ -104,6 +146,41 @@ vim.keymap.set("n", "<leader>tn", "<cmd>tabnew<CR>",
 vim.keymap.set("n", "<leader>tc", "<cmd>tabclose<CR>",
   { desc = "Close tab" })
 
+-- Enable manual folding
+vim.keymap.set("n", "<leader>zm", function()
+  vim.opt_local.foldmethod = "manual"
+  vim.opt_local.foldenable = true
+  vim.notify("Manual folding enabled")
+end, { desc = "Enable manual folding" })
+
+-- Restore diff folding
+vim.keymap.set("n", "<leader>zd", function()
+  vim.opt_local.foldmethod = "diff"
+  vim.notify("Diff folding enabled")
+end, { desc = "Enable diff folding" })
+
+-- Enable Treesitter folding
+vim.keymap.set("n", "<leader>zt", function()
+  vim.opt_local.foldmethod = "expr"
+  vim.opt_local.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+  vim.opt_local.foldenable = true
+  vim.opt_local.foldlevel = 99
+  vim.notify("Treesitter folding enabled")
+end, { desc = "Enable Treesitter folding" })
+
+-- tabs and splits
+vim.keymap.set("n", "<leader>wc", "<cmd>close<CR>",
+  { desc = "Close window" })
+
+vim.keymap.set("n", "<leader>wo", "<cmd>only<CR>",
+  { desc = "Close other windows" })
+
+vim.keymap.set("n", "<leader>tc", "<cmd>tabclose<CR>",
+  { desc = "Close tab" })
+
+vim.keymap.set("n", "<leader>to", "<cmd>tabonly<CR>",
+  { desc = "Close other tabs" })
+
 -- Loads plugins.lua and plugins/*.lua
 require("lazy").setup("plugins")
 
@@ -112,3 +189,4 @@ require("lsp")
 require("completion")
 require("treesitter")
 require("popup_style")
+require("octo_navigation")

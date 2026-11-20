@@ -128,3 +128,68 @@ vim.api.nvim_create_autocmd("FileType", {
     })
   end,
 })
+
+
+-- Which-Key popup styling
+local function style_which_key()
+  local highlights = {
+    WhichKeyNormal     = {
+      fg = "#292622",
+      bg = "#eae4d6",
+    },
+    WhichKeyBorder     = {
+      fg = "#a09887",
+      bg = "#eae4d6",
+    },
+    WhichKeyTitle      = {
+      fg = "#292622",
+      bg = "#eae4d6",
+      bold = true,
+    },
+
+    -- Shortcut keys
+    WhichKey           = {
+      fg = "#174e91",
+      bold = true,
+    },
+
+    -- Shortcut descriptions
+    WhichKeyDesc       = {
+      fg = "#292622",
+    },
+
+    -- Shortcut groups
+    WhichKeyGroup      = {
+      fg = "#633c85",
+      bold = true,
+    },
+
+    WhichKeySeparator  = { fg = "#625e55" },
+    WhichKeyValue      = { fg = "#625e55" },
+
+    -- Icons
+    WhichKeyIcon       = { fg = "#174e91" },
+    WhichKeyIconAzure  = { fg = "#174e91" },
+    WhichKeyIconBlue   = { fg = "#174e91" },
+    WhichKeyIconCyan   = { fg = "#286b70" },
+    WhichKeyIconGreen  = { fg = "#386641" },
+    WhichKeyIconGrey   = { fg = "#625e55" },
+    WhichKeyIconOrange = { fg = "#8b501c" },
+    WhichKeyIconPurple = { fg = "#633c85" },
+    WhichKeyIconRed    = { fg = "#a32b32" },
+    WhichKeyIconYellow = { fg = "#986000" },
+  }
+
+  for group, style in pairs(highlights) do
+    vim.api.nvim_set_hl(0, group, style)
+  end
+end
+
+style_which_key()
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+  group = vim.api.nvim_create_augroup(
+    "WhichKeyStyle", { clear = true }
+  ),
+  callback = style_which_key,
+})
