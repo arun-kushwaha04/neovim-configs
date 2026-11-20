@@ -15,6 +15,9 @@ return {
       scss = { "prettier" },
       markdown = { "prettier" },
       yaml = { "prettier" },
+      c = { "clang_format" },
+      cpp = { "clang_format" },
+      lua = { "stylua" },
     },
     format_on_save = {
       timeout_ms = 1500,

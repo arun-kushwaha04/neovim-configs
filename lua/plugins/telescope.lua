@@ -32,7 +32,26 @@ return {
         "--ignore-case",
       },
     },
-    pickers = { find_files = { hidden = true } },
+    pickers = {
+      find_files = { hidden = true },
+      live_grep = {
+        mappings = {
+          i = {
+            ["<C-Space>"] = function(prompt_bufnr)
+              require("telescope.actions").to_fuzzy_refine(prompt_bufnr)
+            end,
+          },
+        },
+      },
+    },
+    extensions = {
+      fzf = {
+        fuzzy = true,
+        override_generic_sorter = true,
+        override_file_sorter = true,
+        case_mode = "ignore_case",
+      },
+    },
   },
   config = function(_, opts)
     local telescope = require("telescope")

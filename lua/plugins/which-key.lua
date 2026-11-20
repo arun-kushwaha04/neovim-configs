@@ -10,6 +10,13 @@ return {
       { "<leader>c", group = "Code" },
       { "<leader>r", group = "Refactor" },
       { "<leader>z", group = "Folding" },
+      { "<leader>d", group = "Debug" },
+      { "<leader>x", group = "Problems" },
+      { "<leader>j", group = "Tasks" },
+      { "<leader>t", group = "Tests / tabs" },
+      { "<leader>o", group = "GitHub" },
+      { "<leader>g", group = "Git" },
+      { "<leader>e", group = "Explorer" },
     },
   },
   keys = {

@@ -48,6 +48,14 @@ return {
 
   keys = {
     {
+      "<leader>td",
+      function()
+        require("dap") -- load the debugger configuration before running the test
+        require("neotest").run.run({ strategy = "dap", extra_args = { "--runInBand" } })
+      end,
+      desc = "Debug nearest Jest test",
+    },
+    {
       "<leader>tr",
       function()
         require("neotest").run.run()

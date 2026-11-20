@@ -54,6 +54,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
       "n", "gr", vim.lsp.buf.references, opts
     )
 
+    vim.keymap.set("n", "<leader>ci", vim.lsp.buf.implementation,
+      { buffer = event.buf, desc = "Go to implementation" })
+    vim.keymap.set("n", "<leader>cy", vim.lsp.buf.type_definition,
+      { buffer = event.buf, desc = "Go to type definition" })
+
     vim.keymap.set("n", "K", function()
       vim.lsp.buf.hover({
         border = "rounded",
@@ -72,14 +77,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
--- Install and automatically enable LSP servers
+-- Only enable the explicitly selected servers, not every installed server.
+local servers = { "tsc", "lua_ls", "eslint", "clangd" }
 require("mason").setup()
 
 require("mason-lspconfig").setup({
-  ensure_installed = {
-    "tsc",
-    "lua_ls",
-    "eslint",
-  },
-  automatic_enable = true,
+  ensure_installed = servers,
+  automatic_enable = servers,
 })

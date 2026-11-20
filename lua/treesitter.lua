@@ -11,6 +11,11 @@ treesitter.install({
   "lua",
   "markdown",
   "markdown_inline",
+  "c",
+  "cpp",
+  "bash",
+  "yaml",
+  "cmake",
 })
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -20,10 +25,17 @@ vim.api.nvim_create_autocmd("FileType", {
     "typescript",
     "typescriptreact",
     "json",
+    "jsonc",
     "html",
     "css",
     "lua",
     "markdown",
+    "c",
+    "cpp",
+    "sh",
+    "bash",
+    "yaml",
+    "cmake",
   },
   callback = function(event)
     pcall(vim.treesitter.start, event.buf)

@@ -72,5 +72,6 @@ return {
       end,
       desc = "Toggle file explorer",
     },
+    { "<leader>ef", "<cmd>Neotree focus<CR>", desc = "Focus file explorer" },
   },
 }

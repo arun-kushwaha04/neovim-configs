@@ -57,6 +57,18 @@ vim.opt.tabstop = 2
 vim.opt.smartindent = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.winblend = 0
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.incsearch = true
+vim.opt.hlsearch = true
+vim.opt.scrolloff = 8
+vim.opt.undofile = true
+
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlighting" })
+vim.keymap.set("n", "n", "nzz", { desc = "Next search match" })
+vim.keymap.set("n", "N", "Nzz", { desc = "Previous search match" })
+vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center" })
+vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and center" })
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -76,25 +88,6 @@ end
 -- split settings
 vim.opt.splitright = true
 vim.opt.splitbelow = true
-
--- Netrw file explorer
-vim.g.netrw_banner = 0
-vim.g.netrw_liststyle = 3
-vim.g.netrw_winsize = -30
-vim.g.netrw_browse_split = 4
-
-vim.api.nvim_create_autocmd("FileType", {
-  group = vim.api.nvim_create_augroup(
-    "NetrwSettings", { clear = true }
-  ),
-  pattern = "netrw",
-  callback = function()
-    vim.opt_local.winfixwidth = true
-    vim.opt_local.number = false
-    vim.opt_local.relativenumber = false
-    vim.opt_local.signcolumn = "no"
-  end,
-})
 
 vim.opt.rtp:prepend(lazypath)
 
@@ -133,18 +126,14 @@ vim.keymap.set("n", "<leader>cq", function()
   end
 end, { desc = "Toggle Quickfix" })
 
--- buffer line - tab switching
-vim.keymap.set("n", "<Tab>", "<cmd>tabnext<CR>",
-  { desc = "Next tab" })
-
-vim.keymap.set("n", "<S-Tab>", "<cmd>tabprevious<CR>",
-  { desc = "Previous tab" })
-
+-- Native tab navigation; keep Ctrl+i / Tab for forward jump history.
 vim.keymap.set("n", "<leader>tn", "<cmd>tabnew<CR>",
   { desc = "New tab" })
 
-vim.keymap.set("n", "<leader>tc", "<cmd>tabclose<CR>",
-  { desc = "Close tab" })
+vim.keymap.set("n", "<leader>t]", "<cmd>tabnext<CR>",
+  { desc = "Next tab" })
+vim.keymap.set("n", "<leader>t[", "<cmd>tabprevious<CR>",
+  { desc = "Previous tab" })
 
 -- Enable manual folding
 vim.keymap.set("n", "<leader>zm", function()
